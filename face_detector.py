@@ -2,6 +2,8 @@ import numpy as np
 import cv2
 import face_recognition
 
+import pyscreenshot as ImageGrab
+
 from face_defined import get_face_defender
 
 image = face_recognition.load_image_file("2020-03-11-214159.jpg")
@@ -12,14 +14,21 @@ face_defender = get_face_defender()
 
 
 # Get a reference to webcam
-video_capture = cv2.VideoCapture("/dev/video0")
+# video_capture = cv2.VideoCapture("/dev/video0")
 
 while True:
-    # Grab a single frame of video
-    ret, frame = video_capture.read()
+    # capture computer screen
+    img = ImageGrab.grab()
+    # convert image to numpy array
+    img_np = np.array(img)
+    # convert color space from BGR to RGB
+    rgb_frame = cv2.cvtColor(img_np, cv2.COLOR_BGR2RGB)
+    frame = cv2.cvtColor(img_np, cv2.COLOR_BGR2RGB)
 
+    """# Grab a single frame of video
+    ret, frame = video_capture.read()
     # Convert the image from BGR color (which OpenCV uses) to RGB color (which face_recognition uses)
-    rgb_frame = frame[:, :, ::-1]
+    rgb_frame = frame[:, :, ::-1]"""
 
     # Find all the faces in the current frame of video
     face_locations = face_recognition.face_locations(rgb_frame)
