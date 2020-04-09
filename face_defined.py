@@ -24,12 +24,7 @@ def get_face_defender():
     k_opt = minimize(error, np.array([0.5, 0.5, 0.5]), method='BFGS').x
 
     def result(ex):
-        p = k_opt[2] * ex ** 2 + ex * k_opt[1] + k_opt[0]
-        if p < 0:
-            p = 0
-        if p > 1:
-            p = 1
-        return p
+        return 1 / (1 + np.exp(-(k_opt[2] * ex ** 2 + ex * k_opt[1] + k_opt[0])))
 
     return result
 
